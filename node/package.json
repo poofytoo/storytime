@@ -15,6 +15,7 @@
     "bcrypt": "*",
     "request": "*",
     "passport-facebook": "*",
-    "serve-favicon": "*"
+    "serve-favicon": "*",
+    "socket.io": "*"
   }
 }

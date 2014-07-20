@@ -1,0 +1,7 @@
+.chunk {
+  background-color: #fffaaa;
+  outline: none;
+}
+.chunk:active {
+  outline: none;
+}

@@ -2,12 +2,19 @@
 <html>
 <head>
   <title>Story</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
   <script src="js/scripts.js"></script>
 </head>
 <body>
   
   Why hello, {{user}}. <a href="/logout">Logout?</a>
-
+  <br />
+  Chapter 1 <br />
+  This is someone else's sentence. <span class="chunk"> [+]</span>. This is someone else's sentence
+  <script>
+    $(".chunk").attr('contentEditable',true);
+  </script>
 </body>
 </html>

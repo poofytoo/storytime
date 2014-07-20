@@ -6,6 +6,24 @@ var root = new Firebase(authConfig.firebaseURL);
 root.auth(authConfig.firebaseSecret);
 var http = require('http');
 
+/*
+ * Schema
+ *
+ * storytime
+ *   chunks:
+ *     1:
+ *      author: Victor Hung
+ *      text: This is the tale of a young man named bob
+ *      status: Saved
+ *     2:
+ *      author: Michael Xu
+ *      status: Editing
+ *     ...
+ *   order: [2,1]
+ *     
+ */
+ 
+ 
 var ADMIN = {'Michael Xu': true, 
              'Victor Hung': true, 
              'Stephanie Yu': true};

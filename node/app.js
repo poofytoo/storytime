@@ -64,11 +64,9 @@ app.get('/', routes.root);
 app.get('/login', routes.login);
 
 app.get('/viewer', routes.viewer);
-app.get('/loggedin', routes.isLoggedIn);
 app.get('/logout', routes.logout);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
-
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { successRedirect: '/',
       failureRedirect: '/' }))
