@@ -71,6 +71,10 @@ app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { successRedirect: '/',
       failureRedirect: '/' }))
 
+app.get('/getallchunks', routes.getAllChunks);
+
+app.post('/submitchunk', routes.submitChunk);
+
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });

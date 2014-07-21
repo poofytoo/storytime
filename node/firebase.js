@@ -113,10 +113,112 @@ function findUser(id, callback) {
   });
 }
 
+// Insert newId after prevId in chapter in order, mutates order
+function insertId(order, prevId, newId) {
+  var index = -1;
+  for (var chapterId in order) {
+    var chapter = order[chapterId];
+    for (var i = 0; i < chapter.length; i++) {
+      if (chapter[i] === prevId) {
+        index = i;
+        break;
+      }
+    }
+    if (index !== -1) {
+      chapter.splice(index, 0, newId);
+      break;
+    }
+  }
+}
+
+// Deep copy an order
+function cloneOrder(order) {
+  var newOrder = {};
+  for (var chapterId in order) {
+    var chapter = order[chapterId];
+    newOrder[chapterId] = chapter.slice(0);
+  }
+  return newOrder;
+}
+
+function insertChunk(chunkId, previousChunkId, callback) {
+  // First increment the orderCounter, add the new updated order
+  root.child('latestOrder').transaction(function(oldOrder) {
+    var prevOrder = oldOrder.val();
+    var newOrder = cloneOrder(prevOrder);
+    insertId(newOrder, previousChunkId, chunkId);
+    return newOrder;
+  }, function(error, committed, snapshot) {
+    if (error) {
+      callback(error);
+      return;
+    }
+    root.child('orderCounter').transaction(function(counter) {
+      return counter + 1;
+    }, function(error, committed, snapshot) {
+      var orderId = snapshot.val();
+      root.child('orders').child(orderId).set(newOrder, function(error) {
+        if (error) {
+          callback(error);
+          return;
+        }
+        callback(false);
+      });
+    });
+  });
+}
+
+function getChunks(callback) {
+  root.child('chunks').once('value', function(data) {
+    callback(data.val());
+  });
+}
+
+function addChunk(chunk, callback) {
+  root.child('chunkCounter').transaction(function(counter) {
+    return counter + 1;
+  }, function(error, committed, snapshot) {
+    var chunkId = snapshot.val();
+    if (error) {
+      callback(-1, error);
+      return;
+    }
+    root.child('chunks').child(chunkId).set(chunk);
+    callback(chunkId, false);
+  });
+}
+
+function updateChunkStatus(chunkId, status, callback) {
+  root.child('chunks').child(chunkId).once('value', function(data) {
+    if (!data.val()) {
+      callback('Chunk: ' + chunkId + ' not found!');
+      return;
+    }
+    root.child('chunks').child(chunkId).child('status').set(status);
+    callback(false);
+  });
+}
+
+function getLatestOrder(callback) {
+  root.child('latestOrder').once('value', function(data) {
+    callback(data.val());
+  });
+}
+
+function getOrder(orderId, callback) {
+  root.child('order').child(orderId).once('value', function(data) {
+    callback(data.val());
+  });
+}
+
 exports.createUserFb = createUserFb;
 exports.createUser = createUser;
 exports.getUser = getUser;
 exports.findUser = findUser;
 exports.sanitizeUsername = sanitizeUsername;
-
-
+exports.insertChunk = insertChunk;
+exports.getChunks = getChunks;
+exports.addChunk = addChunk;
+exports.updateChunkStatus = updateChunkStatus;
+exports.getLatestOrder = getLatestOrder;
+exports.getOrder = getOrder;

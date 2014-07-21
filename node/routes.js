@@ -58,6 +58,21 @@ exports.getFirebase = function(req, res) {
   res.end();
 }
 
+exports.submitChunk = function(req, res) {
+  model.submitChunk(req.user, req.chunk, req.prevId, function(error) {
+    res.end();
+  });
+}
+
+exports.getAllChunks = function(req, res) {
+  model.getAllChunks(function(chunkData) {
+    var jsonChunkData = JSON.stringify(chunkData);
+    res.writeHead(200, {
+      'Content-Type': 'application/json' })
+    res.write(jsonChunkData);
+    res.end();
+  });
+}
 
 exports.isLoggedIn = function(req, res) {
   var loggedIn = "no";
