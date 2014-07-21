@@ -3,17 +3,69 @@
 <head>
   <title>Story</title>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
   <script src="js/scripts.js"></script>
+  
 </head>
 <body>
-  
+  <header>
+    <div class="title">
+      <h1>Story by</h1>
+      <h2>The Internet</h2>
+    </div>
+    <ul class="navigation">
+      <li class="active"><a href=''>current</a></li>
+      <li><a href=''>history</a></li>
+    </ul>
+  </header>
+  <!--
   Why hello, {{user}}. <a href="/logout">Logout?</a>
   <br />
   Chapter 1 <br />
   This is someone else's sentence. <span class="chunk"> [+]</span>. This is someone else's sentence
-  <script>
+  -->
+  <div class="story-container">
+  
+  
+  </div>
+  
+  <script type="text/javascript">
+    var testChunks = {"chunks" : [ {
+      "author" : "Victor Hung",
+      "content" : {
+        "text" : "Today was a day!"
+      },
+      "status" : "SAVED"
+    }, {
+      "author" : "Michael Xu",
+      "content" : {
+        "text" : "And then something happened."
+      },
+      "status" : "SAVED"
+    } ]}
+    
+    $(document).ready(function() {
+      var url = '/getallchunks';
+      
+      $.get(url, function(data){
+        updateViewChunks(data.chunks);
+      });
+      
+      var updateViewChunks = function(chunks) {
+        $storyContainer = $('.story-container')
+        for (i in chunks) {
+          $viewChunk = $("<span></span>");
+          $viewChunk.append(chunks[i].content.text)
+          console.log($viewChunk.html())
+          $storyContainer.append($viewChunk);
+        }
+      };
+      
+      updateViewChunks(testChunks.chunks)
+      
+    });
     $(".chunk").attr('contentEditable',true);
   </script>
 </body>
