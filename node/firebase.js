@@ -13,14 +13,18 @@ var http = require('http');
  *   chunks:
  *     1:
  *      author: Victor Hung
- *      text: This is the tale of a young man named bob
  *      status: Saved
+ *      content: 
+ *        text: This is the tale of a young man named bob
+ *        ups: 3
+ *        downs: 2
  *     2:
  *      author: Michael Xu
  *      status: Editing
  *     ...
  *   order: [2,1]
- *     
+ *   users:
+ *     ???
  */
  
  
