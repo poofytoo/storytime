@@ -53,7 +53,6 @@ function createUserFb(username, id, callback) {
       var user = {
         'id' : id,
         'username' : cleanUsername,
-        'score' : 0,
         'userStatus': 'new'
       };
 
